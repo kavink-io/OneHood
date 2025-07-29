@@ -12,6 +12,7 @@ import NoticeboardPage from './pages/NoticeboardPage';
 import CalendarPage from './pages/CalendarPage';
 import MarketplacePage from './pages/MarketplacePage';
 import PollsPage from './pages/PollsPage'; // Import the new Polls page
+import ResourcesPage from './pages/ResourcesPage';
 
 function App() {
   // Use both authentication and theme contexts
@@ -33,6 +34,8 @@ function App() {
               <Link to="/calendar" style={{ marginRight: '15px', textDecoration: 'none' }}>Calendar</Link>
               <Link to="/marketplace" style={{ marginRight: '15px', textDecoration: 'none' }}>Marketplace</Link>
               <Link to="/polls" style={{ marginRight: '15px', textDecoration: 'none' }}>Polls</Link>
+              <Link to="/resources" style={{ marginRight: '15px', textDecoration: 'none' }}>Resources</Link>
+
             </>
           )}
         </div>
@@ -70,6 +73,8 @@ function App() {
           <Route path="/calendar" element={user ? <CalendarPage /> : <Navigate to="/login" />} />
           <Route path="/marketplace" element={user ? <MarketplacePage /> : <Navigate to="/login" />} />
           <Route path="/polls" element={user ? <PollsPage /> : <Navigate to="/login" />} />
+          <Route path="/resources" element={user ? <ResourcesPage /> : <Navigate to="/login" />} />
+
           
           {/* Routes accessible only when logged OUT */}
           <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />

@@ -15,6 +15,8 @@ const noticeRoutes = require('./routes/notices'); // This route is now a functio
 const eventRoutes = require('./routes/events');
 const listingRoutes = require('./routes/listings');
 const pollRoutes = require('./routes/polls');
+const resourceRoutes = require('./routes/resources');
+
 
 
 
@@ -31,6 +33,7 @@ const io = new Server(server, {         // Attach Socket.IO to the HTTP server
 // 4. Configure Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // 5. Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -47,6 +50,7 @@ app.use('/api/notices', noticeRoutes(io));
 app.use('/api/events', eventRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/polls', pollRoutes);
+app.use('/api/resources', resourceRoutes);
 
 
 // A simple test route to make sure the server is running.

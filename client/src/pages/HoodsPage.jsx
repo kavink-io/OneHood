@@ -6,7 +6,7 @@ const HoodsPage = () => {
   const [hoods, setHoods] = useState([]);
   const [hoodName, setHoodName] = useState('');
   const [message, setMessage] = useState('');
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
 
   // Fetch all hoods when the component loads
   useEffect(() => {
@@ -21,10 +21,9 @@ const HoodsPage = () => {
     fetchHoods();
   }, []);
 
+  // Handler for the 'Create Hood' form submission
   const handleCreateHood = async (e) => {
     e.preventDefault();
-    // The user object from context needs to include the ID.
-    // We'll update this in the next step. For now, this will fail.
     if (!user || !user.id) {
         setMessage("You must be logged in to create a hood.");
         return;
@@ -35,7 +34,8 @@ const HoodsPage = () => {
         name: hoodName,
         userId: user.id
       });
-      setHoods([res.data, ...hoods]); // Add new hood to the top of the list
+      // Add the newly created hood to the top of the list
+      setHoods([res.data, ...hoods]);
       setHoodName(''); // Clear input field
       setMessage(`'${res.data.name}' created successfully!`);
     } catch (error) {
@@ -44,10 +44,29 @@ const HoodsPage = () => {
     }
   };
 
+  // Handler for joining a hood
+  const handleJoinHood = async (hoodId) => {
+    try {
+      // We must include the token to access a protected route
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      
+      const res = await axios.put('http://localhost:5000/api/users/join-hood', { hoodId }, config);
+      
+      setMessage(res.data.message);
+    } catch (error) {
+      setMessage('Failed to join hood.');
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h2>Create or Select a Hood</h2>
-
+      
       <form onSubmit={handleCreateHood}>
         <h3>Create a New Hood</h3>
         <input
@@ -66,8 +85,11 @@ const HoodsPage = () => {
       <h3>Available Hoods</h3>
       <ul>
         {hoods.map((hood) => (
-          <li key={hood._id}>
-            {hood.name}
+          <li key={hood._id} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+            <span style={{ marginRight: '15px' }}>{hood.name}</span>
+            <button onClick={() => handleJoinHood(hood._id)}>
+              Join
+            </button>
           </li>
         ))}
       </ul>

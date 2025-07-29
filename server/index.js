@@ -7,6 +7,7 @@ const hoodRoutes = require('./routes/hoods');
 
 // 2. Import Route Files
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 
 // 3. Initialize Express App
 const app = express();
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGO_URI)
 // For example, the '/register' route becomes '/api/auth/register'
 app.use('/api/auth', authRoutes);
 app.use('/api/hoods', hoodRoutes);
+app.use('/api/users', userRoutes);
 
 // A simple test route to make sure the server is running.
 app.get('/', (req, res) => {

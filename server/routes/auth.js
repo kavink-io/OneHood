@@ -60,7 +60,8 @@ router.post('/login', async (req, res) => {
     const payload = {
       user: {
         id: user.id,
-        name: user.name
+        name: user.name,
+        hood: user.hood // Add this line
       },
     };
 

@@ -1,68 +1,108 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* ------------------------- */
+/* --- THEME VARIABLES --- */
+/* ------------------------- */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Light Theme (Default) */
+body[data-theme='light'] {
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+    --primary-color: #007bff;
+    --primary-text-color: #ffffff;
+    --nav-background: #ffffff;
+    --card-background: #ffffff;
+    --card-secondary-background: #f9f9f9;
+    --border-color: #dee2e6;
+    --input-background: #ffffff;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Dark Theme */
+body[data-theme='dark'] {
+    --background-color: #212529;
+    --text-color: #f8f9fa;
+    --primary-color: #0d6efd;
+    --primary-text-color: #ffffff;
+    --nav-background: #2c3034;
+    --card-background: #343a40;
+    --card-secondary-background: #2c3034;
+    --border-color: #495057;
+    --input-background: #495057;
+}
+
+
+/* ------------------------- */
+/* --- GLOBAL STYLES --- */
+/* ------------------------- */
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+main {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+}
+
+
+/* ------------------------- */
+/* --- ELEMENT STYLES --- */
+/* ------------------------- */
+
+nav {
+    background-color: var(--nav-background) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+    color: var(--primary-color);
+    text-decoration: none;
 }
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+nav a {
+    color: var(--text-color);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+    background-color: var(--primary-color);
+    color: var(--primary-text-color);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: opacity 0.2s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+    opacity: 0.9;
+}
+
+button[type="button"] {
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+input, textarea, select {
+    background-color: var(--input-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }

@@ -53,4 +53,23 @@ router.get('/', protect, async (req, res) => {
     }
 });
 
+// Add this new route to handle downloads
+// @route   GET /api/resources/download/:id
+// @desc    Download a resource file
+router.get('/download/:id', async (req, res) => {
+    try {
+        const resource = await Resource.findById(req.params.id);
+        if (!resource) {
+            return res.status(404).json({ message: 'File not found.' });
+        }
+
+        // The res.download() method handles setting the headers to trigger a download
+        // It takes two arguments: the path to the file on the server, and the desired filename for the user.
+        res.download(resource.path, resource.originalName);
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error });
+    }
+});
+
 module.exports = router;

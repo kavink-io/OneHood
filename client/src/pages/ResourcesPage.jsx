@@ -78,7 +78,7 @@ const ResourcesPage = () => {
             <ul>
                 {resources.map(resource => (
                     <li key={resource._id}>
-                        <a href={`http://localhost:5000/${resource.path}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`http://localhost:5000/api/resources/download/${resource._id}`} download>
                             {resource.originalName}
                         </a>
                         <small> (Uploaded by {resource.uploader.name})</small>

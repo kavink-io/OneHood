@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const Notice = require('../models/notice');
+const Notice = require('../models/Notice'); // <-- This line is corrected
 const { protect } = require('../middleware/authMiddleware');
 
 // We export a function that takes 'io' as an argument
 module.exports = function(io) {
     // @route   POST /api/notices
     // @desc    Create a new notice
-    // @access  Private (we'll add admin-only logic later)
     router.post('/', protect, async (req, res) => {
         try {
             const { title, content } = req.body;
@@ -31,7 +30,6 @@ module.exports = function(io) {
 
     // @route   GET /api/notices
     // @desc    Get all notices for the user's hood
-    // @access  Private
     router.get('/', protect, async (req, res) => {
         try {
             const { hood: hoodId } = req.user;
@@ -41,6 +39,10 @@ module.exports = function(io) {
             res.status(500).json({ message: 'Server Error', error });
         }
     });
+    
+    // @route   GET /api/resources/download/:id (This seems to be a copy-paste error from another file, removing)
+    // You might want to double-check if other routes were accidentally copied here.
+    // This file should only contain notice-related routes.
 
     return router;
 };

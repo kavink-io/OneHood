@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Listing = require('../models/Listing');
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // @route   POST /api/listings
 // @desc    Create a new marketplace listing
 // @access  Private

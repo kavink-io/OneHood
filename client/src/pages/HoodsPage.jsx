@@ -1,65 +1,77 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const HoodsPage = () => {
   const [hoods, setHoods] = useState([]);
   const [hoodName, setHoodName] = useState('');
   const [message, setMessage] = useState('');
-  const { user, token } = useContext(AuthContext);
+  const { user, token, updateUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Fetch all hoods when the component loads
   useEffect(() => {
-    const fetchHoods = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/hoods');
-        setHoods(res.data);
-      } catch (error) {
-        console.error('Failed to fetch hoods', error);
-      }
-    };
-    fetchHoods();
-  }, []);
+    // Only fetch hoods if the user's token is available
+    if (token) {
+      const fetchHoods = async () => {
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        try {
+          const res = await axios.get('/api/hoods', config);
+          // Defensive Check: Only update state if the API returns an array
+          if (Array.isArray(res.data)) {
+            setHoods(res.data);
+          } else {
+            console.error("API did not return an array for hoods:", res.data);
+            setHoods([]); // Reset to an empty array on failure
+          }
+        } catch (error) {
+          console.error('Failed to fetch hoods', error);
+          setHoods([]); // Reset to an empty array on failure
+        }
+      };
+      fetchHoods();
+    }
+  }, [token]);
 
-  // Handler for the 'Create Hood' form submission
+  // Handler for creating a new hood
   const handleCreateHood = async (e) => {
     e.preventDefault();
+    // Robust check to ensure user and user.id exist before proceeding
     if (!user || !user.id) {
-        setMessage("You must be logged in to create a hood.");
+        setMessage("User data not loaded. Please wait a moment and try again.");
         return;
     }
-
+    
+    const config = { headers: { Authorization: `Bearer ${token}` } };
     try {
-      const res = await axios.post('http://localhost:5000/api/hoods', {
-        name: hoodName,
-        userId: user.id
-      });
-      // Add the newly created hood to the top of the list
+      const res = await axios.post('/api/hoods', { name: hoodName, userId: user.id }, config);
       setHoods([res.data, ...hoods]);
-      setHoodName(''); // Clear input field
+      setHoodName('');
       setMessage(`'${res.data.name}' created successfully!`);
     } catch (error) {
       setMessage('Failed to create hood. It might already exist.');
-      console.error(error);
     }
   };
-
+      
   // Handler for joining a hood
   const handleJoinHood = async (hoodId) => {
+    if (!user || !token) return;
+
     try {
-      // We must include the token to access a protected route
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const res = await axios.put('/api/users/join-hood', { hoodId }, config);
       
-      const res = await axios.put('http://localhost:5000/api/users/join-hood', { hoodId }, config);
-      
+      const updatedUser = { ...user, hood: res.data.hood };
+      updateUser(updatedUser);
+
       setMessage(res.data.message);
+      
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+
     } catch (error) {
       setMessage('Failed to join hood.');
-      console.error(error);
     }
   };
 
@@ -67,7 +79,7 @@ const HoodsPage = () => {
     <div>
       <h2>Create or Select a Hood</h2>
       
-      <form onSubmit={handleCreateHood}>
+      <form onSubmit={handleCreateHood} style={{ marginBottom: '20px' }}>
         <h3>Create a New Hood</h3>
         <input
           type="text"
@@ -76,9 +88,9 @@ const HoodsPage = () => {
           onChange={(e) => setHoodName(e.target.value)}
           required
         />
-        <button type="submit">Create</button>
+        <button type="submit" style={{ marginLeft: '10px' }}>Create</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p style={{ color: '#28a745', fontWeight: 'bold' }}>{message}</p>}
 
       <hr style={{margin: '20px 0'}}/>
 

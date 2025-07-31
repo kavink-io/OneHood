@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Poll = require('../models/Poll');
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // @route   POST /api/polls
 // @desc    Create a new poll
 router.post('/', protect, async (req, res) => {

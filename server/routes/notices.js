@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Notice = require('../models/Notice'); // <-- This line is corrected
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // We export a function that takes 'io' as an argument
 module.exports = function(io) {
     // @route   POST /api/notices

@@ -18,33 +18,50 @@ const pollRoutes = require('./routes/polls');
 const resourceRoutes = require('./routes/resources');
 const adminRoutes = require('./routes/admin');
 
-// 3. Initialize App, HTTP Server, and Socket.IO
+// 3. Initialize App, HTTP Server
 const app = express();
 const server = http.createServer(app);
 
-// The URL of your live frontend on Vercel
-const frontendURL = "https://one-hood.vercel.app"; // <-- Replace if your URL is different
+// 4. Configure CORS for multiple origins
+const allowedOrigins = [
+    "https://one-hood.vercel.app", // Your live Vercel URL
+    "http://localhost:5173"      // Your local development URL
+];
 
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
+};
+
+app.use(cors(corsOptions));
+
+// 5. Initialize Socket.IO with CORS
 const io = new Server(server, {
   cors: {
-    origin: frontendURL,
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT"]
   }
 });
 
-// 4. Configure Middleware
-app.use(cors({ origin: frontendURL }));
+// 6. Configure Middleware
 app.use(express.json());
 
-// 5. Serve Static Files (for uploads)
+// 7. Serve Static Files (for uploads)
 app.use('/uploads', express.static('uploads'));
 
-// 6. Connect to MongoDB
+// 8. Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Successfully connected to MongoDB!'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// 7. Define API Routes
+// 9. Define API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/hoods', hoodRoutes);
 app.use('/api/users', userRoutes);
@@ -60,13 +77,20 @@ app.get('/', (req, res) => {
     res.send('OneHood API is running! 🚀');
 });
 
-// 8. Set up Socket.IO Connection Logic
+// 10. Set up Socket.IO Connection Logic
 io.on('connection', (socket) => {
     socket.on('join-hood', (hoodId) => {
         socket.join(hoodId);
     });
 });
 
-// 9. Export the app for Vercel Serverless Functions
-// This replaces app.listen() for compatibility with Vercel's environment
+// 11. Start the Server for Local Development
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+
+
+/*
+// FOR VERCEL DEPLOYMENT: Comment out the server.listen() block above
+// and uncomment the line below.
 module.exports = app;
+*/

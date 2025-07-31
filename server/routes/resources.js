@@ -3,8 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const Resource = require('../models/Resource');
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: './uploads/',

@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Post = require('../models/Post');
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // @route   POST /api/posts
 // @desc    Create a new post in the user's hood
 // @access  Private

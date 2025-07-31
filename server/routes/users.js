@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/User');
-const { protect } = require('../middleware/authMiddleware');
-
+const { protect } = require('../middleware/adminMiddleware');
 // @route   PUT /api/users/join
 // @desc    User joins a hood
 // @access  Private (requires token)

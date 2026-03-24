@@ -9,7 +9,7 @@ const isVideo = (url) => {
 }
 
 function MarketplaceItem({ item, onDelete, onUpdate }) {
-  const { user } = useAuth(); // Renamed from currentUser for consistency
+  const { user, isAdmin } = useAuth(); // Renamed from currentUser for consistency
   const [isEditing, setIsEditing] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
@@ -20,6 +20,7 @@ function MarketplaceItem({ item, onDelete, onUpdate }) {
   const [editedDesc, setEditedDesc] = useState(item.description);
 
   const isSeller = user && item.seller && user._id === item.seller._id;
+  const canManage = isSeller || isAdmin;
 
   const handleSave = () => {
     const updatedData = {
@@ -78,7 +79,7 @@ function MarketplaceItem({ item, onDelete, onUpdate }) {
             </div>
           )}
           
-          {isSeller && (
+          {canManage && (
             <div className="seller-actions">
               <button onClick={() => setIsEditing(true)}>Edit</button>
               <button onClick={() => onDelete(item._id)}>Delete</button>

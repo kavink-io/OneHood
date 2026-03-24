@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import './Post.css';
 
 function Post({ post, onDelete, onUpdate }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState(post.content);
 
@@ -12,8 +12,8 @@ function Post({ post, onDelete, onUpdate }) {
     setIsEditing(false);
   };
 
-  // Check if the current user is the author of the post
-  const isAuthor = user && post.author && user._id === post.author._id;
+  // Check if the current user is the author of the post OR an admin
+  const canManage = (user && post.author && user._id === post.author._id) || isAdmin;
 
   // Function to check if the URL is for a video
   const isVideo = (url) => {
@@ -24,7 +24,7 @@ function Post({ post, onDelete, onUpdate }) {
     <div className="post">
       <div className="post-header">
         <strong>{post.author?.name || 'Anonymous'}</strong>
-        {isAuthor && !isEditing && (
+        {canManage && !isEditing && (
           <div className="post-actions">
             <button onClick={() => setIsEditing(true)} className="edit-button">Edit</button>
             <button onClick={() => onDelete(post._id)} className="delete-button">&times;</button>

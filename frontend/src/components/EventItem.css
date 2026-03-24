@@ -1,133 +1,180 @@
-.event-item {
-  background-color: #3a3f4b;
-  border-radius: 8px;
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-}
-.event-date-card {
-  background-color: #282c34;
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: center;
-  color: white;
-  min-width: 80px;
-  align-self: flex-start;
-}
-.month {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #aaa;
-}
-.day {
-  font-size: 2.5rem;
-  font-weight: bold;
-  line-height: 1;
-  margin-top: 0.25rem;
-  color: #61dafb;
-}
-.event-details {
-  width: 100%;
-}
-.event-name { margin: 0; }
-.event-time { font-size: 0.9rem; color: #ccc; margin: 0.25rem 0 1rem 0; }
-.event-description { font-size: 1rem; margin-bottom: 1rem; }
-.event-poster { font-size: 0.8rem; color: #aaa; margin: 0; }
+/* ── Event Item Card ─────────────────────────────────────────── */
 
-/* Styles for action buttons and edit form */
+.event-item {
+  display: flex;
+  gap: 1.1rem;
+  align-items: flex-start;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeSlideIn 0.35s ease both;
+}
+
+.event-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Date badge */
+.event-date-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.35);
+  flex-shrink: 0;
+}
+
+.month {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.day {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Details column */
+.event-details {
+  flex: 1;
+}
+
+.event-name {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.event-time {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.event-description {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.event-poster {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.event-poster strong {
+  color: var(--text-primary);
+}
+
+/* Author actions */
 .author-actions {
-  margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .author-actions button {
   background: none;
-  border: 1px solid #555;
-  color: #ccc;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.8rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
+.author-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.author-actions button:last-child:hover {
+  border-color: #f03e3e;
+  color: #f03e3e;
+}
+
+/* Edit form inside event item */
 .event-edit-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
+  gap: 0.6rem;
 }
 
-.event-edit-form input, .event-edit-form textarea {
+.event-edit-form input,
+.event-edit-form textarea {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 0.55rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.92rem;
   width: 100%;
   box-sizing: border-box;
-  background-color: #282c34;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  padding: 0.5rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.edit-actions {
+.event-edit-form input:focus,
+.event-edit-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+}
+
+.event-edit-form .date-time-inputs {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.event-edit-form .edit-actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.save-btn, .cancel-btn {
-   background-color: #4a505f;
-   border: none;
-   color: white;
-   padding: 0.4rem 0.8rem;
-   border-radius: 4px;
-   cursor: pointer;
+.event-edit-form .save-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border: none;
+  color: #fff;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-family: inherit;
 }
 
-/* Light Mode Styles for Individual Event Cards */
-[data-mantine-color-scheme="light"] .event-item {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
+.event-edit-form .cancel-btn {
+  background: none;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: inherit;
+  transition: all 0.2s;
 }
 
-[data-mantine-color-scheme="light"] .event-date-card {
-  background-color: #f1f3f5;
-}
-
-[data-mantine-color-scheme="light"] .month {
-  color: #868e96;
-}
-
-[data-mantine-color-scheme="light"] .event-name {
-  color: #000000;
-}
-
-[data-mantine-color-scheme="light"] .event-time,
-[data-mantine-color-scheme="light"] .event-description {
-  color: #495057;
-}
-
-[data-mantine-color-scheme="light"] .event-poster,
-[data-mantine-color-scheme="light"] .event-poster strong {
-  color: #868e96;
-}
-
-/* Also style the edit form inside the card */
-[data-mantine-color-scheme="light"] .event-edit-form input, 
-[data-mantine-color-scheme="light"] .event-edit-form textarea {
-    background-color: #f8f9fa;
-    color: #000000;
-    border-color: #ced4da;
-}
-
-/* Add a smooth transition to the base button styles */
-.author-actions button {
-  transition: background-color 0.2s ease;
-}
-
-/* Edit/Delete button hover effect */
-.author-actions button:hover {
-  background-color: #4a505f;
-}
-[data-mantine-color-scheme="light"] .author-actions button:hover {
-  background-color: #e9ecef;
+.event-edit-form .cancel-btn:hover {
+  border-color: #f03e3e;
+  color: #f03e3e;
 }

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 
 function Navbar() {
-  const { user, logout } = useAuth(); // We now get the full 'user' object
+  const { user, logout, isAdmin } = useAuth();
 
   return (
     <nav className="navbar">
@@ -13,16 +13,18 @@ function Navbar() {
         <Link to="/">Feed</Link>
         <Link to="/marketplace">Marketplace</Link>
         <Link to="/calendar">Calendar</Link>
+        {isAdmin && <Link to="/users">Members</Link>}
         
         {user ? (
-          // If user is logged in, show welcome message and logout button
           <>
             <ThemeToggle />
-            <span>Welcome, {user.name}!</span>
+            <span>
+              Welcome, {user.name}!
+              {isAdmin && <span className="admin-badge">Admin</span>}
+            </span>
             <button onClick={logout} className="logout-button">Logout</button>
           </>
         ) : (
-          // If user is logged out, show login and register links
           <>
             <ThemeToggle />
             <Link to="/login">Login</Link>
@@ -34,4 +36,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Navbar;

@@ -1,77 +1,114 @@
+/* ── Navbar ──────────────────────────────────────────────────── */
+
 .navbar {
-  padding: 1rem 2rem; /* Added more horizontal padding */
-  background-color: #333;
-  color: white;
-  border-bottom: 1px solid #555;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 64px;
+  background-color: var(--bg-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Brand / Logo */
 .navbar-brand {
-  color: white;
   text-decoration: none;
 }
 
 .navbar-brand h2 {
   margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* This is the main fix */
+/* Links row */
 .navbar-links {
-  display: flex;         /* Arrange items in a row */
-  align-items: center;   /* Vertically align everything */
-  gap: 1.5rem;           /* Add 1.5rem of space BETWEEN each item */
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .navbar-links a {
-  color: white;
+  position: relative;
+  color: var(--text-secondary);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  border-radius: 2px;
+  transition: width 0.25s ease;
 }
 
 .navbar-links a:hover {
-  text-decoration: underline;
+  color: var(--accent);
 }
 
-/* Added to style the welcome message */
+.navbar-links a:hover::after {
+  width: 100%;
+}
+
+/* Welcome text */
 .navbar-links span {
-  color: #ccc; /* A slightly dimmer color to differentiate */
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 400;
 }
 
-/* Added to make the logout look like a button */
+/* Logout button */
 .logout-button {
-  background-color: #555;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 5px;
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
 .logout-button:hover {
-  background-color: #777;
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.35);
 }
 
-/* Light Mode Specific Styles for Navbar */
-[data-mantine-color-scheme="light"] .navbar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #dee2e6; /* A subtle border for separation */
-}
-
-[data-mantine-color-scheme="light"] .navbar-brand,
-[data-mantine-color-scheme="light"] .navbar-links a,
-[data-mantine-color-scheme="light"] .navbar-links span {
-  color: #000000;
-}
-
-[data-mantine-color-scheme="light"] .logout-button {
-  background-color: #f1f3f5;
-  color: #000000;
-}
-
-[data-mantine-color-scheme="light"] .logout-button:hover {
-  background-color: #e9ecef;
+/* Admin badge */
+.admin-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  background: linear-gradient(135deg, #f59f00, #f76707);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 20px;
+  vertical-align: middle;
 }

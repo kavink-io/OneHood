@@ -33,7 +33,7 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
         if (!event) return res.status(404).json({ msg: 'Event not found' });
-        if (event.postedBy.toString() !== req.user.id) return res.status(401).json({ msg: 'User not authorized' });
+        if (event.postedBy.toString() !== req.user.id && !req.user.isAdmin) return res.status(401).json({ msg: 'User not authorized' });
         
         await event.deleteOne();
         res.json({ msg: 'Event removed' });
@@ -47,7 +47,7 @@ router.patch('/:id', auth, async (req, res) => {
     try {
         let event = await Event.findById(req.params.id);
         if (!event) return res.status(404).json({ msg: 'Event not found' });
-        if (event.postedBy.toString() !== req.user.id) return res.status(401).json({ msg: 'User not authorized' });
+        if (event.postedBy.toString() !== req.user.id && !req.user.isAdmin) return res.status(401).json({ msg: 'User not authorized' });
 
         event = await Event.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
         const populatedEvent = await event.populate('postedBy', ['name']);

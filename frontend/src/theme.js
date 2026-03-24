@@ -1,25 +1,24 @@
 import { createTheme } from '@mantine/core';
 
 export const theme = createTheme({
-  fontFamily: 'Poppins, sans-serif',
-  
-  // We'll keep our custom primary color
-  primaryColor: 'blue',
+  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+  primaryColor: 'violet',
+
   colors: {
-    blue: [
-      "#e7f5ff", "#d0ebff", "#a5d8ff", "#74c0fc",
-      "#4dabf7", "#339af0", "#228be6", "#1c7ed6",
-      "#1971c2", "#1864ab"
+    violet: [
+      '#f3f0ff', '#e5dbff', '#d0bfff', '#b197fc',
+      '#9775fa', '#845ef7', '#7950f2', '#6741d9',
+      '#5f3dc4', '#5435b8'
     ],
   },
 
-  // This is the key change for a better light mode
-  // We'll set a default background color for the entire app
-  // and add shadows to our Paper/Card components.
-  other: {
-    appBodyBg: (theme) => theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+  defaultRadius: 'md',
+
+  headings: {
+    fontFamily: 'Inter, sans-serif',
+    fontWeight: '700',
   },
-  
+
   components: {
     Paper: {
       defaultProps: {
@@ -31,6 +30,21 @@ export const theme = createTheme({
       defaultProps: {
         shadow: 'sm',
         withBorder: true,
+      },
+    },
+    Button: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    TextInput: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    PasswordInput: {
+      defaultProps: {
+        radius: 'md',
       },
     },
   },

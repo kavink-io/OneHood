@@ -1,101 +1,137 @@
+/* ── Calendar Page ───────────────────────────────────────────── */
+
 .calendar-container {
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
 }
 
+.calendar-container h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.calendar-container > p {
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem;
+}
+
+/* ── Event Form ──────────────────────────────────────────────── */
+
 .event-form {
-  background-color: #3a3f4b;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
   padding: 1.5rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .event-form h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .event-form input,
-.event-form textarea {
+.event-form textarea,
+.custom-time-picker select {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.97rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-form input {
   width: 100%;
   box-sizing: border-box;
-  background-color: #282c34;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  padding: 0.75rem;
-  font-size: 1rem;
+}
+
+.event-form input:focus,
+.event-form textarea:focus,
+.custom-time-picker select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
 }
 
 .event-form textarea {
-  min-height: 100px;
+  min-height: 90px;
   resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.event-form button {
+.event-form button[type="submit"] {
   align-self: flex-end;
-  background-color: #61dafb;
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   border: none;
-  color: #282c34;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-weight: bold;
+  color: #fff;
+  padding: 0.6rem 1.6rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  font-family: inherit;
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(var(--accent-rgb), 0.3);
 }
 
+.event-form button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.4);
+}
+
+/* Date + Time row */
 .date-time-inputs {
   display: flex;
-  gap: 1rem;
+  gap: 0.85rem;
+  flex-wrap: wrap;
 }
 
-/* in src/components/Calendar.css */
+.date-time-inputs input[type="date"] {
+  flex: 1;
+  min-width: 160px;
+}
 
+/* Custom time picker */
 .custom-time-picker {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  flex-grow: 1; /* Allows this container to take up available space */
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 200px;
 }
 
 .custom-time-picker select {
-  background-color: #282c34;
-  border: 1px solid #555;
-  border-radius: 4px;
-  color: white;
-  padding: 0.75rem 0.5rem;
-  font-size: 1rem;
-  
-  /* This is the key change */
-  flex: 1; /* Tells each select box to take up an equal share of the space */
-  min-width: 60px; /* Ensures they don't get too small */
+  flex: 1;
+  min-width: 60px;
+  padding: 0.7rem 0.4rem;
 }
 
 .custom-time-picker span {
-  color: #aaa;
-  font-weight: bold;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 1rem;
 }
 
-/* Light Mode Styles for Event Form */
-[data-mantine-color-scheme="light"] .event-form {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-}
+/* ── Event list ──────────────────────────────────────────────── */
 
-[data-mantine-color-scheme="light"] .event-form h3 {
-  color: #000000;
-}
-
-[data-mantine-color-scheme="light"] .event-form input,
-[data-mantine-color-scheme="light"] .event-form textarea,
-[data-mantine-color-scheme="light"] .custom-time-picker select {
-  background-color: #f8f9fa;
-  color: #000000;
-  border-color: #ced4da;
-}
-
-[data-mantine-color-scheme="light"] .custom-time-picker span {
-    color: #495057;
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

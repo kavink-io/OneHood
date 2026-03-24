@@ -36,7 +36,7 @@ router.delete('/:id', auth, async (req, res) => {
     try {
         const item = await MarketplaceItem.findById(req.params.id);
         if (!item) return res.status(404).json({ msg: 'Item not found' });
-        if (item.seller.toString() !== req.user.id) return res.status(401).json({ msg: 'User not authorized' });
+        if (item.seller.toString() !== req.user.id && !req.user.isAdmin) return res.status(401).json({ msg: 'User not authorized' });
         
         await item.deleteOne();
         res.json({ msg: 'Item removed' });
@@ -50,7 +50,7 @@ router.patch('/:id', auth, async (req, res) => {
     try {
         let item = await MarketplaceItem.findById(req.params.id);
         if (!item) return res.status(404).json({ msg: 'Item not found' });
-        if (item.seller.toString() !== req.user.id) return res.status(401).json({ msg: 'User not authorized' });
+        if (item.seller.toString() !== req.user.id && !req.user.isAdmin) return res.status(401).json({ msg: 'User not authorized' });
 
         item = await MarketplaceItem.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
         const populatedItem = await item.populate('seller', ['name']);

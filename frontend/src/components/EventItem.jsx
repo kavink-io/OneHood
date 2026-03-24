@@ -3,14 +3,14 @@ import { useAuth } from '../context/AuthContext';
 import './EventItem.css';
 
 function EventItem({ event, onDelete, onUpdate }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(event.eventName);
   const [editedDate, setEditedDate] = useState(event.eventDate);
   const [editedTime, setEditedTime] = useState(event.eventTime);
   const [editedDesc, setEditedDesc] = useState(event.description);
   
-  const isAuthor = user && user._id === event.postedBy._id;
+  const canManage = (user && event.postedBy && user._id === event.postedBy._id) || isAdmin;
 
   const handleSave = () => {
     onUpdate(event._id, { 
@@ -52,7 +52,7 @@ function EventItem({ event, onDelete, onUpdate }) {
             <p className="event-time">{formattedDate} at {formattedTime}</p>
             <p className="event-description">{event.description}</p>
             <p className="event-poster">Posted by: <strong>{event.postedBy?.name}</strong></p>
-            {isAuthor && (
+            {canManage && (
               <div className="author-actions">
                 <button onClick={() => setIsEditing(true)}>Edit</button>
                 <button onClick={() => onDelete(event._id)}>Delete</button>

@@ -52,8 +52,8 @@ router.delete('/:id', auth, async (req, res) => {
         if (!post) {
             return res.status(404).json({ msg: 'Post not found' });
         }
-        // Check if the user deleting the post is the author
-        if (post.author.toString() !== req.user.id) {
+        // Check if the user deleting the post is the author OR an admin
+        if (post.author.toString() !== req.user.id && !req.user.isAdmin) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
         await post.deleteOne();
@@ -73,7 +73,7 @@ router.patch('/:id', auth, async (req, res) => {
         if (!post) {
             return res.status(404).json({ msg: 'Post not found' });
         }
-        if (post.author.toString() !== req.user.id) {
+        if (post.author.toString() !== req.user.id && !req.user.isAdmin) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
 

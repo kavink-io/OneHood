@@ -1,0 +1,8 @@
+node_modules
+.env
+*.log
+out.log
+err.txt
+test-db.js
+test2.js
+uploads/

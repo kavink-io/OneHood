@@ -2,6 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const dns = require('dns');
+
+// Workaround for local DNS blocking MongoDB SRV records
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 // Load environment variables from .env file
 dotenv.config();
